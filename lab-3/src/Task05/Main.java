@@ -1,5 +1,7 @@
 package Task05;
 
+import Task05.strategies.FileImageLoadingStrategy;
+import Task05.strategies.NetworkImageLoadingStrategy;
 import Task6.NodeInfo;
 
 import java.util.List;
@@ -76,6 +78,23 @@ public class Main {
         System.out.println(div.innerHTML());
 
 
+        System.out.println("\n=== Strategy ===");
+        LightNode fileImg = new LightImageNode("local/path/image.png");
+        LightNode netImg = new LightImageNode("http://example.com/image.jpg");
+
+        System.out.println("--- Rendering File Image ---");
+        fileImg.render();
+
+        System.out.println("--- Rendering Network Image ---");
+        netImg.render();
+
+        LightElementNode div1 = new LightElementNode("div1", DisplayType.BLOCK, ClosingType.STANDARD);
+        div1.addChild(fileImg);
+        div1.addChild(netImg);
+        System.out.println("--- Rendering div with images ---");
+        div1.render();
+
+      
         System.out.println("\n=== Observer ===");
         Style btn = new Style();
         header.set("color", "blue");
