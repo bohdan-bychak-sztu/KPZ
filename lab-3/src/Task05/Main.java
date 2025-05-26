@@ -74,5 +74,30 @@ public class Main {
         System.out.println(div.outerHTML());
         System.out.println("InnerHTML:");
         System.out.println(div.innerHTML());
+
+
+        System.out.println("\n=== Observer ===");
+        Style btn = new Style();
+        header.set("color", "blue");
+        header.set("font-weight", "bold");
+        StyleRegistry.registerClass("btn", header);
+
+        LightElementNode button = new LightElementNode("button", DisplayType.INLINE, ClosingType.STANDARD, List.of("btn"));
+        LightTextNode label = new LightTextNode("Click me!");
+        button.addChild(label);
+
+
+        button.addEventListener("click", (eventType, source) -> System.out.println("Button was clicked!"));
+        button.addEventListener("mouseover", (eventType, source) -> System.out.println("Mouse is over the button."));
+
+        System.out.println("HTML:");
+        System.out.println(button.outerHTML());
+        button.render();
+
+        System.out.println("Triggering events:");
+        button.triggerEvent("mouseover");
+        button.triggerEvent("click");
+        button.triggerEvent("click");
+
     }
 }

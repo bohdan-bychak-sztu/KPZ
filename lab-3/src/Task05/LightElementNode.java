@@ -1,18 +1,19 @@
 package Task05;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringJoiner;
+import java.util.*;
+
 import Task6.*;
 
-public class LightElementNode extends LightNode{
+public class LightElementNode extends LightNode {
     private final NodeInfo nodeInfo;
     private final List<LightNode> children = new ArrayList<>();
     private final Style inlineStyle = new Style();
+    private final Map<String, List<EventListener>> eventListeners = new HashMap<>();
 
     public LightElementNode(String tagName, DisplayType displayType, ClosingType closingType, List<String> classNames) {
         this.nodeInfo = new NodeInfo(tagName, displayType, closingType, classNames);
     }
+
     public LightElementNode(String tagName, DisplayType displayType, ClosingType closingType) {
         this.nodeInfo = new NodeInfo(tagName, displayType, closingType, List.of());
     }
@@ -32,12 +33,6 @@ public class LightElementNode extends LightNode{
     public int getChildCount() {
         return children.size();
     }
-    private Style resolveStyle() {
-        Style combined = StyleRegistry.getStyleForClasses(nodeInfo.getClassNames());
-        combined.merge(inlineStyle);
-        return combined;
-    }
-
 
     @Override
     public String outerHTML() {
@@ -86,7 +81,24 @@ public class LightElementNode extends LightNode{
         System.out.println(style.toAnsiEnd());
     }
 
+    private Style resolveStyle() {
+        Style combined = StyleRegistry.getStyleForClasses(nodeInfo.getClassNames());
+        combined.merge(inlineStyle);
+        return combined;
+    }
+
     public void addClass(String className) {
         nodeInfo.addClass(className);
+    }
+
+    public void addEventListener(String eventType, EventListener listener) {
+        eventListeners.computeIfAbsent(eventType, k -> new ArrayList<>()).add(listener);
+    }
+
+    public void triggerEvent(String eventType) {
+        List<EventListener> listeners = eventListeners.getOrDefault(eventType, List.of());
+        for (EventListener listener : listeners) {
+            listener.handleEvent(eventType, this);
+        }
     }
 }
