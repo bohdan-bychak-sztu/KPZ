@@ -1,5 +1,6 @@
 package Task05;
 
+import Task05.Visitor.TagCountVisitor;
 import Task05.command.AddChildCommand;
 import Task05.command.ChangeStyleCommand;
 import Task05.command.Command;
@@ -126,6 +127,14 @@ public class Main {
         button.triggerEvent("click");
 
 
+        System.out.println("\n=== Visitor ===");
+        TagCountVisitor visitor = new TagCountVisitor("li");
+        div.accept(visitor);
+        System.out.println("Кількість <li>: " + visitor.getCount());
+
+        TagCountVisitor spanVisitor = new TagCountVisitor("span");
+        div.accept(spanVisitor);
+        System.out.println("Кількість <span>: " + spanVisitor.getCount());
         System.out.println("\n=== Command ===");
         CommandManager manager = new CommandManager();
 

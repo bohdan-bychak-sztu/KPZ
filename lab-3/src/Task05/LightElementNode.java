@@ -2,6 +2,7 @@ package Task05;
 
 import java.util.*;
 
+import Task05.Visitor.Visitor;
 import Task05.state.VisibilityState;
 import Task05.state.VisibleState;
 import Task6.*;
@@ -120,6 +121,13 @@ public class LightElementNode extends LightNode {
     public void setVisibilityState(VisibilityState state) {
         this.visibilityState = state;
     }
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+        for (LightNode child : children) {
+            child.accept(visitor);
+        }
+
     public void removeChild(LightNode child) {
         children.remove(child);
     }

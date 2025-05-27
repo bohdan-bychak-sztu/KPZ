@@ -1,5 +1,7 @@
 package Task05;
 
+import Task05.Visitor.Visitor;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,19 +22,6 @@ public class LightTextNode extends LightNode {
         cssClasses.add(className);
     }
 
-    private Style resolveStyle() {
-        Style combined = StyleRegistry.getStyleForClasses(cssClasses);
-        combined.merge(inlineStyle);
-        return combined;
-    }
-
-    @Override
-    public void render() {
-        Style style = resolveStyle();
-        String leftPad = " ".repeat(style.getLeftMargin());
-        System.out.print(leftPad + style.toAnsiStart() + text + style.toAnsiEnd());
-    }
-
     @Override
     public String outerHTML() {
         return text;
@@ -42,4 +31,23 @@ public class LightTextNode extends LightNode {
     public String innerHTML() {
         return text;
     }
+
+    @Override
+    public void render() {
+        Style style = resolveStyle();
+        String leftPad = " ".repeat(style.getLeftMargin());
+        System.out.print(leftPad + style.toAnsiStart() + text + style.toAnsiEnd());
+    }
+
+    private Style resolveStyle() {
+        Style combined = StyleRegistry.getStyleForClasses(cssClasses);
+        combined.merge(inlineStyle);
+        return combined;
+    }
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
+
 }
