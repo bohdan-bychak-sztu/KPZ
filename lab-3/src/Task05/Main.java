@@ -4,6 +4,9 @@ import Task05.command.AddChildCommand;
 import Task05.command.ChangeStyleCommand;
 import Task05.command.Command;
 import Task05.command.CommandManager;
+import Task05.state.CollapsedState;
+import Task05.state.HiddenState;
+import Task05.state.VisibleState;
 import Task05.strategies.FileImageLoadingStrategy;
 import Task05.strategies.NetworkImageLoadingStrategy;
 import Task6.NodeInfo;
@@ -145,5 +148,23 @@ public class Main {
         System.out.println("--- After Undo ---");
         testDiv.render();
 
+        System.out.println("\n=== State ===");
+        LightElementNode section = new LightElementNode("section", DisplayType.BLOCK, ClosingType.STANDARD);
+        section.addChild(new LightTextNode("Цей елемент може змінювати стан видимості"));
+
+        System.out.println("--- Видимий стан ---");
+        section.setVisibilityState(new VisibleState());
+        section.render();
+        System.out.println(section.outerHTML());
+
+        System.out.println("--- Прихований стан ---");
+        section.setVisibilityState(new HiddenState());
+        section.render();
+        System.out.println(section.outerHTML());
+
+        System.out.println("--- Згорнутий стан ---");
+        section.setVisibilityState(new CollapsedState());
+        section.render();
+        System.out.println(section.outerHTML());
     }
 }
