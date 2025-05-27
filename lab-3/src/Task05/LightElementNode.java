@@ -2,6 +2,9 @@ package Task05;
 
 import java.util.*;
 
+import Task05.iterator.BreadthFirstIterator;
+import Task05.iterator.DepthFirstIterator;
+import Task05.iterator.NodeIterator;
 import Task05.templateMethod.RendererTemplate;
 import Task05.Visitor.Visitor;
 import Task05.state.VisibilityState;
@@ -151,5 +154,16 @@ public class LightElementNode extends LightNode {
 
     public void setRenderer(RendererTemplate renderer) {
         this.renderer = renderer;
+    }
+    public List<LightNode> getChildren() {
+        return children;
+    }
+
+    public NodeIterator getDepthFirstIterator() {
+        return new DepthFirstIterator(this);
+    }
+
+    public NodeIterator getBreadthFirstIterator() {
+        return new BreadthFirstIterator(this);
     }
 }
