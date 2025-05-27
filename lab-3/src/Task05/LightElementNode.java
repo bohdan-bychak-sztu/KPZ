@@ -120,4 +120,12 @@ public class LightElementNode extends LightNode {
     public void setVisibilityState(VisibilityState state) {
         this.visibilityState = state;
     }
+    public void removeChild(LightNode child) {
+        children.remove(child);
+    }
+
+    public Style getInlineStyle() {
+        return inlineStyle;
+    }
+
 }

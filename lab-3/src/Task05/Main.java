@@ -1,5 +1,9 @@
 package Task05;
 
+import Task05.command.AddChildCommand;
+import Task05.command.ChangeStyleCommand;
+import Task05.command.Command;
+import Task05.command.CommandManager;
 import Task05.state.CollapsedState;
 import Task05.state.HiddenState;
 import Task05.state.VisibleState;
@@ -121,6 +125,28 @@ public class Main {
         button.triggerEvent("click");
         button.triggerEvent("click");
 
+
+        System.out.println("\n=== Command ===");
+        CommandManager manager = new CommandManager();
+
+        LightElementNode testDiv = new LightElementNode("div", DisplayType.BLOCK, ClosingType.STANDARD);
+        LightElementNode testP = new LightElementNode("p", DisplayType.BLOCK, ClosingType.STANDARD);
+        testP.addChild(new LightTextNode("Hello world!"));
+
+        Command addCommand = new AddChildCommand(testDiv, testP);
+        Command styleCommand = new ChangeStyleCommand(testP, "color", "magenta");
+
+        manager.executeCommand(addCommand);
+        manager.executeCommand(styleCommand);
+
+        System.out.println("--- After Commands ---");
+        testDiv.render();
+
+        manager.undoLast();
+        manager.undoLast();
+
+        System.out.println("--- After Undo ---");
+        testDiv.render();
 
         System.out.println("\n=== State ===");
         LightElementNode section = new LightElementNode("section", DisplayType.BLOCK, ClosingType.STANDARD);
