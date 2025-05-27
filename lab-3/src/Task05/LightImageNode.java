@@ -1,5 +1,6 @@
 package Task05;
 
+import Task05.Visitor.Visitor;
 import Task05.strategies.FileImageLoadingStrategy;
 import Task05.strategies.ImageLoadingStrategy;
 import Task05.strategies.NetworkImageLoadingStrategy;
@@ -35,5 +36,10 @@ public class LightImageNode extends LightNode {
     public void render() {
         String loadedImage = strategy.load(href);
         System.out.println(loadedImage);
+    }
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
     }
 }

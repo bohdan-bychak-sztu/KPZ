@@ -1,5 +1,6 @@
 package Task05;
 
+import Task05.Visitor.TagCountVisitor;
 import Task05.strategies.FileImageLoadingStrategy;
 import Task05.strategies.NetworkImageLoadingStrategy;
 import Task6.NodeInfo;
@@ -118,5 +119,14 @@ public class Main {
         button.triggerEvent("click");
         button.triggerEvent("click");
 
+
+        System.out.println("\n=== Visitor ===");
+        TagCountVisitor visitor = new TagCountVisitor("li");
+        div.accept(visitor);
+        System.out.println("Кількість <li>: " + visitor.getCount());
+
+        TagCountVisitor spanVisitor = new TagCountVisitor("span");
+        div.accept(spanVisitor);
+        System.out.println("Кількість <span>: " + spanVisitor.getCount());
     }
 }

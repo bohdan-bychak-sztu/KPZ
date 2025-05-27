@@ -2,6 +2,7 @@ package Task05;
 
 import java.util.*;
 
+import Task05.Visitor.Visitor;
 import Task6.*;
 
 public class LightElementNode extends LightNode {
@@ -101,4 +102,12 @@ public class LightElementNode extends LightNode {
             listener.handleEvent(eventType, this);
         }
     }
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+        for (LightNode child : children) {
+            child.accept(visitor);
+        }
+    }
+
 }
