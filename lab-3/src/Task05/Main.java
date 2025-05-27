@@ -1,5 +1,8 @@
 package Task05;
 
+import Task05.state.CollapsedState;
+import Task05.state.HiddenState;
+import Task05.state.VisibleState;
 import Task05.strategies.FileImageLoadingStrategy;
 import Task05.strategies.NetworkImageLoadingStrategy;
 import Task6.NodeInfo;
@@ -118,5 +121,24 @@ public class Main {
         button.triggerEvent("click");
         button.triggerEvent("click");
 
+
+        System.out.println("\n=== State ===");
+        LightElementNode section = new LightElementNode("section", DisplayType.BLOCK, ClosingType.STANDARD);
+        section.addChild(new LightTextNode("Цей елемент може змінювати стан видимості"));
+
+        System.out.println("--- Видимий стан ---");
+        section.setVisibilityState(new VisibleState());
+        section.render();
+        System.out.println(section.outerHTML());
+
+        System.out.println("--- Прихований стан ---");
+        section.setVisibilityState(new HiddenState());
+        section.render();
+        System.out.println(section.outerHTML());
+
+        System.out.println("--- Згорнутий стан ---");
+        section.setVisibilityState(new CollapsedState());
+        section.render();
+        System.out.println(section.outerHTML());
     }
 }
