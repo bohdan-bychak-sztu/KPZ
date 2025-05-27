@@ -143,6 +143,7 @@ public class LightElementNode extends LightNode {
         for (LightNode child : children) {
             child.accept(visitor);
         }
+    }
 
     public void removeChild(LightNode child) {
         children.remove(child);
@@ -154,9 +155,6 @@ public class LightElementNode extends LightNode {
 
     public void setRenderer(RendererTemplate renderer) {
         this.renderer = renderer;
-    }
-    public List<LightNode> getChildren() {
-        return children;
     }
 
     public NodeIterator getDepthFirstIterator() {
