@@ -2,6 +2,7 @@ package Task05;
 
 import java.util.*;
 
+import Task05.templateMethod.RendererTemplate;
 import Task05.Visitor.Visitor;
 import Task05.state.VisibilityState;
 import Task05.state.VisibleState;
@@ -12,6 +13,7 @@ public class LightElementNode extends LightNode {
     private final List<LightNode> children = new ArrayList<>();
     private final Style inlineStyle = new Style();
     private final Map<String, List<EventListener>> eventListeners = new HashMap<>();
+    private RendererTemplate renderer;
 
     private VisibilityState visibilityState = new VisibleState();
 
@@ -31,6 +33,13 @@ public class LightElementNode extends LightNode {
         inlineStyle.set(key, value);
     }
 
+    public NodeInfo getNodeInfo() {
+        return nodeInfo;
+    }
+
+    public List<LightNode> getChildren() {
+        return children;
+    }
     public void addChild(LightNode child) {
         children.add(child);
     }
@@ -78,14 +87,18 @@ public class LightElementNode extends LightNode {
     }
 
     public void renderInternal() {
+      if (renderer != null) {
+            renderer.render(this);
+      }
+      else{
         Style style = resolveStyle();
         String leftPad = " ".repeat(style.getLeftMargin());
-
-        System.out.print(leftPad + style.toAnsiStart());
-        for (LightNode child : children) {
-            child.render();
+            System.out.print(leftPad + style.toAnsiStart());
+            for (LightNode child : children) {
+                child.render();
+            }
+            System.out.println(style.toAnsiEnd());
         }
-        System.out.println(style.toAnsiEnd());
     }
 
     private Style resolveStyle() {
@@ -136,4 +149,7 @@ public class LightElementNode extends LightNode {
         return inlineStyle;
     }
 
+    public void setRenderer(RendererTemplate renderer) {
+        this.renderer = renderer;
+    }
 }
