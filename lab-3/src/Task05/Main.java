@@ -2,6 +2,8 @@ package Task05;
 
 import Task05.strategies.FileImageLoadingStrategy;
 import Task05.strategies.NetworkImageLoadingStrategy;
+import Task05.templateMethod.FancyRenderer;
+import Task05.templateMethod.SimpleRenderer;
 import Task6.NodeInfo;
 
 import java.util.List;
@@ -118,5 +120,12 @@ public class Main {
         button.triggerEvent("click");
         button.triggerEvent("click");
 
+
+        System.out.println("\n=== Template method ===");
+        div.setRenderer(new FancyRenderer());
+        div.render();
+
+        div.setRenderer(new SimpleRenderer());
+        div.render();
     }
 }
