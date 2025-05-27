@@ -2,6 +2,9 @@ package Task05;
 
 import java.util.*;
 
+import Task05.iterator.BreadthFirstIterator;
+import Task05.iterator.DepthFirstIterator;
+import Task05.iterator.NodeIterator;
 import Task6.*;
 
 public class LightElementNode extends LightNode {
@@ -100,5 +103,16 @@ public class LightElementNode extends LightNode {
         for (EventListener listener : listeners) {
             listener.handleEvent(eventType, this);
         }
+    }
+    public List<LightNode> getChildren() {
+        return children;
+    }
+
+    public NodeIterator getDepthFirstIterator() {
+        return new DepthFirstIterator(this);
+    }
+
+    public NodeIterator getBreadthFirstIterator() {
+        return new BreadthFirstIterator(this);
     }
 }

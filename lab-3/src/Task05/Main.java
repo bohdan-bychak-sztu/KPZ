@@ -1,5 +1,6 @@
 package Task05;
 
+import Task05.iterator.NodeIterator;
 import Task05.strategies.FileImageLoadingStrategy;
 import Task05.strategies.NetworkImageLoadingStrategy;
 import Task6.NodeInfo;
@@ -117,6 +118,23 @@ public class Main {
         button.triggerEvent("mouseover");
         button.triggerEvent("click");
         button.triggerEvent("click");
+
+
+        System.out.println("\n=== Iterator ===");
+        div.render();
+        System.out.println("\nDFS:");
+        NodeIterator dfs = div.getDepthFirstIterator();
+        while (dfs.hasNext()) {
+            LightNode node = dfs.next();
+            System.out.println(node.getClass().getSimpleName() + ": " + node.outerHTML());
+        }
+
+        System.out.println("\nBFS:");
+        NodeIterator bfs = div.getBreadthFirstIterator();
+        while (bfs.hasNext()) {
+            LightNode node = bfs.next();
+            System.out.println(node.getClass().getSimpleName() + ": " + node.outerHTML());
+        }
 
     }
 }
