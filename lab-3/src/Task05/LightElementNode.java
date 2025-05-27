@@ -101,4 +101,12 @@ public class LightElementNode extends LightNode {
             listener.handleEvent(eventType, this);
         }
     }
+    public void removeChild(LightNode child) {
+        children.remove(child);
+    }
+
+    public Style getInlineStyle() {
+        return inlineStyle;
+    }
+
 }
