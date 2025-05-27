@@ -1,8 +1,18 @@
 package Task05;
 
 import Task05.iterator.NodeIterator;
+import Task05.Visitor.TagCountVisitor;
+import Task05.command.AddChildCommand;
+import Task05.command.ChangeStyleCommand;
+import Task05.command.Command;
+import Task05.command.CommandManager;
+import Task05.state.CollapsedState;
+import Task05.state.HiddenState;
+import Task05.state.VisibleState;
 import Task05.strategies.FileImageLoadingStrategy;
 import Task05.strategies.NetworkImageLoadingStrategy;
+import Task05.templateMethod.FancyRenderer;
+import Task05.templateMethod.SimpleRenderer;
 import Task6.NodeInfo;
 
 import java.util.List;
@@ -136,5 +146,60 @@ public class Main {
             System.out.println(node.getClass().getSimpleName() + ": " + node.outerHTML());
         }
 
+        System.out.println("\n=== Template method ===");
+        div.setRenderer(new FancyRenderer());
+        div.render();
+
+        div.setRenderer(new SimpleRenderer());
+        div.render();
+
+        System.out.println("\n=== Visitor ===");
+        TagCountVisitor visitor = new TagCountVisitor("li");
+        div.accept(visitor);
+        System.out.println("Кількість <li>: " + visitor.getCount());
+
+        TagCountVisitor spanVisitor = new TagCountVisitor("span");
+        div.accept(spanVisitor);
+        System.out.println("Кількість <span>: " + spanVisitor.getCount());
+        System.out.println("\n=== Command ===");
+        CommandManager manager = new CommandManager();
+
+        LightElementNode testDiv = new LightElementNode("div", DisplayType.BLOCK, ClosingType.STANDARD);
+        LightElementNode testP = new LightElementNode("p", DisplayType.BLOCK, ClosingType.STANDARD);
+        testP.addChild(new LightTextNode("Hello world!"));
+
+        Command addCommand = new AddChildCommand(testDiv, testP);
+        Command styleCommand = new ChangeStyleCommand(testP, "color", "magenta");
+
+        manager.executeCommand(addCommand);
+        manager.executeCommand(styleCommand);
+
+        System.out.println("--- After Commands ---");
+        testDiv.render();
+
+        manager.undoLast();
+        manager.undoLast();
+
+        System.out.println("--- After Undo ---");
+        testDiv.render();
+
+        System.out.println("\n=== State ===");
+        LightElementNode section = new LightElementNode("section", DisplayType.BLOCK, ClosingType.STANDARD);
+        section.addChild(new LightTextNode("Цей елемент може змінювати стан видимості"));
+
+        System.out.println("--- Видимий стан ---");
+        section.setVisibilityState(new VisibleState());
+        section.render();
+        System.out.println(section.outerHTML());
+
+        System.out.println("--- Прихований стан ---");
+        section.setVisibilityState(new HiddenState());
+        section.render();
+        System.out.println(section.outerHTML());
+
+        System.out.println("--- Згорнутий стан ---");
+        section.setVisibilityState(new CollapsedState());
+        section.render();
+        System.out.println(section.outerHTML());
     }
 }
